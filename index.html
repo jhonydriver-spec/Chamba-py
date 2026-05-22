@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChambaPy - Trabajadores Verificados</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+body { background: #f8fafc; color: #1e293b; padding-bottom: 80px; }
+header { background: #2563eb; color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 10; }
+.container { padding: 15px; max-width: 700px; margin: 0 auto; }
+.btn { width: 100%; padding: 12px; background: #2563eb; border: none; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.3s; }
+.btn:hover { background: #1d4ed8; }
+.btn-destacado { background: #f59e0b; }
+.btn-destacado:hover { background: #d97706; }
+.btn-danger { background: #ef4444; }
+.btn-danger:hover { background: #dc2626; }
+.btn-small { width: auto; padding: 6px 12px; font-size: 12px; margin: 5px 5px 5px 0; }
+.btn-secondary { background: #6b7280; }
+.btn-secondary:hover { background: #4b5563; }
+input, select, textarea { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 16px; }
+input:focus, select:focus, textarea:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+.card { background: white; padding: 15px; border-radius: 12px; margin-bottom: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0; }
+.grid img { width: 100%; height: 150px; object-fit: cover; border-radius: 8px; cursor: pointer; }
+.badge { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 12px; color: white; margin-right: 5px; }
+.badge-verified { background: #22c55e; }
+.badge-featured { background: #f59e0b; }
+.tab-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: white; display: flex; border-top: 1px solid #e2e8f0; z-index: 11; }
+.tab-btn { flex: 1; padding: 12px; background: none; border: none; cursor: pointer; font-size: 12px; color: #64748b; transition: 0.3s; }
+.tab-btn.active { color: #2563eb; font-weight: bold; }
+.hidden { display: none; }
+details { margin-top: 10px; background: #f1f5f9; padding: 10px; border-radius: 8px; }
+summary { cursor: pointer; color: #2563eb; font-weight: bold; }
+.alert { padding: 12px; border-radius: 8px; margin-bottom: 10px; }
+.alert-success { background: #d1fae5; border-left: 4px solid #10b981; color: #065f46; }
+.alert-error { background: #fee2e2; border-left: 4px solid #ef4444; color: #7f1d1d; }
+.alert-info { background: #dbeafe; border-left: 4px solid #3b82f6; color: #1e40af; }
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 20; align-items: center; justify-content: center; }
+.modal.active { display: flex; }
+.modal-content { background: white; padding: 20px; border-radius: 12px; max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto; }
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.modal-header h2 { margin: 0; }
+.close-btn { background: none; border: none; font-size: 24px; cursor: pointer; color: #64748b; }
+.star-rating { display: flex; gap: 5px; margin: 10px 0; }
+.star { font-size: 24px; cursor: pointer; color: #cbd5e1; transition: 0.2s; }
+.star.active { color: #f59e0b; }
+.review-item { background: #f8fafc; padding: 10px; border-radius: 8px; margin: 8px 0; border-left: 4px solid #f59e0b; }
+.worker-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px 0; }
+.stat-box { background: #f1f5f9; padding: 10px; border-radius: 8px; text-align: center; }
+.stat-number { font-size: 20px; font-weight: bold; color: #2563eb; }
+.stat-label { font-size: 12px; color: #64748b; }
+.login-form { max-width: 400px; margin: 20px auto; }
+.user-info { background: #f1f5f9; padding: 10px; border-radius: 8px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+.empty-state { text-align: center; padding: 30px 15px; color: #64748b; }
+.empty-state-icon { font-size: 48px; margin-bottom: 10px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>ChambaPy 🔧</h1>
+  <small>Trabajadores verificados cerca tuyo</small>
+</header>
+
+<div class="container">
+  <!-- PANTALLA DE LOGIN -->
+  <div id="pantalla-login" class="hidden">
+    <div class="login-form">
+      <h2>Acceso a ChambaPy</h2>
+      <p style="color: #64748b; margin-bottom: 20px;">¿Eres trabajador? Crea tu perfil gratis</p>
+      
+      <input type="tel" id="login-telefono" placeholder="Tu teléfono (0981 123 456)">
+      <input type="password" id="login-pin" placeholder="PIN de 4 dígitos" maxlength="4">
+      <button class="btn" onclick="loginTrabajador()">Acceder</button>
+      
+      <p style="text-align: center; color: #64748b; font-size: 12px; margin-top: 15px;">
+        ¿Primera vez? Crea un PIN de 4 dígitos para registrarte
+      </p>
+    </div>
+  </div>
+
+  <!-- BUSCAR TRABAJADORES -->
+  <div id="pantalla-buscar">
+    <div style="margin-bottom: 10px;">
+      <input type="text" id="buscar-oficio" placeholder="Buscar: electricista, plomero, pintor..." oninput="renderizarTrabajadores()">
+      <select id="filtro-zona" onchange="renderizarTrabajadores()">
+        <option value="">Todas las zonas</option>
+        <option>Asunción</option>
+        <option>Luque</option>
+        <option>San Lorenzo</option>
+        <option>CDE</option>
+        <option>Encarnación</option>
+        <option>Fernando de la Mora</option>
+        <option>Lambaré</option>
+        <option>Capiatá</option>
+      </select>
+    </div>
+    <div id="lista-trabajadores"></div>
+  </div>
+
+  <!-- MI PERFIL -->
+  <div id="pantalla-perfil" class="hidden">
+    <div id="info-usuario" class="user-info">
+      <div>
+        <strong id="usuario-nombre"></strong><br>
+        <small id="usuario-telefono" style="color: #64748b;"></small>
+      </div>
+      <button class="btn btn-secondary btn-small" onclick="logout()">Salir</button>
+    </div>
+
+    <div id="registro-form">
+      <h3>Crear mi perfil gratis</h3>
+      <input id="nombre" placeholder="Nombre completo">
+      <input id="telefono" placeholder="0981 123 456" type="tel" readonly>
+      <select id="oficio">
+        <option>Electricista</option><option>Plomero</option><option>Pintor</option>
+        <option>Albañil</option><option>Jardinero</option><option>Mecánico</option>
+        <option>Carpintero</option><option>Técnico en refrigeración</option><option>Otro</option>
+      </select>
+      <select id="zona">
+        <option>Asunción</option>
+        <option>Luque</option>
+        <option>San Lorenzo</option>
+        <option>CDE</option>
+        <option>Encarnación</option>
+        <option>Fernando de la Mora</option>
+        <option>Lambaré</option>
+        <option>Capiatá</option>
+      </select>
+      <textarea id="descripcion" placeholder="Contá qué hacés y tu experiencia" rows="3"></textarea>
+      <button class="btn" onclick="registrarTrabajador()">Crear perfil</button>
+      <p style="font-size:12px; color:#64748b; margin-top:10px;">✓ Verificación gratis · 📸 Sube fotos/videos · ⭐ Recibe reseñas</p>
+    </div>
+
+    <div id="perfil-creado" class="hidden">
+      <h3>Mis trabajos 📸</h3>
+      <div class="worker-stats">
+        <div class="stat-box">
+          <div class="stat-number" id="stat-trabajos">0</div>
+          <div class="stat-label">Trabajos mostrados</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number" id="stat-rating">0.0</div>
+          <div class="stat-label">Rating promedio</div>
+        </div>
+      </div>
+
+      <div style="background: #f1f5f9; padding: 10px; border-radius: 8px; margin: 10px 0;">
+        <label style="font-weight: bold; display: block; margin-bottom: 8px;">Sube fotos o videos de tus trabajos:</label>
+        <input type="file" id="archivo" accept="image/*,video/*" multiple>
+        <button class="btn" onclick="subirTrabajo()">Subir archivo</button>
+      </div>
+
+      <div id="mis-trabajos"></div>
+
+      <div style="margin-top:20px; padding:15px; background:#fef3c7; border-radius:8px; border-left: 4px solid #f59e0b;">
+        <strong>⭐ ¿Querés más clientes?</strong>
+        <p style="margin: 5px 0; font-size: 14px;">Destacá tu perfil por Gs 5.000/mes</p>
+        <p style="margin: 5px 0; font-size: 12px; color: #64748b;">Escribí a WhatsApp: <a href="https://wa.me/5950981000000" style="color: #2563eb;">0981-000-000</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN -->
+  <div id="pantalla-admin" class="hidden">
+    <h3>🔒 Panel Admin</h3>
+    <div style="background: #fee2e2; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 12px;">
+      <strong>PIN Admin: 1234</strong>
+    </div>
+    <div id="lista-admin"></div>
+  </div>
+</div>
+
+<!-- MODAL PARA VER IMAGEN -->
+<div id="modal-imagen" class="modal" onclick="cerrarModal(event)">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Foto</h2>
+      <button class="close-btn" onclick="cerrarModal()">✕</button>
+    </div>
+    <img id="modal-img" src="" style="width: 100%; border-radius: 8px;">
+  </div>
+</div>
+
+<!-- NAVEGACIÓN -->
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="cambiarTab('buscar', event)">🔍 Buscar</button>
+  <button class="tab-btn" onclick="cambiarTab('perfil', event)">👤 Perfil</button>
+  <button class="tab-btn" onclick="cambiarTab('admin', event)">⚙️ Admin</button>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

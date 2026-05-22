@@ -18,6 +18,8 @@ header { background: #2563eb; color: white; padding: 15px; text-align: center; p
 .btn-small { width: auto; padding: 6px 12px; font-size: 12px; margin: 5px 5px 5px 0; }
 .btn-secondary { background: #6b7280; }
 .btn-secondary:hover { background: #4b5563; }
+.btn-whatsapp { background: #25d366; }
+.btn-whatsapp:hover { background: #20ba5a; }
 input, select, textarea { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 16px; }
 input:focus, select:focus, textarea:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
 .card { background: white; padding: 15px; border-radius: 12px; margin-bottom: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
@@ -55,6 +57,11 @@ summary { cursor: pointer; color: #2563eb; font-weight: bold; }
 .user-info { background: #f1f5f9; padding: 10px; border-radius: 8px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
 .empty-state { text-align: center; padding: 30px 15px; color: #64748b; }
 .empty-state-icon { font-size: 48px; margin-bottom: 10px; }
+.admin-header { background: #dcfce7; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #22c55e; }
+.admin-header h3 { margin: 0 0 10px 0; color: #16a34a; }
+.admin-contact { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.admin-contact-info { flex: 1; min-width: 200px; }
+.admin-contact-info p { margin: 5px 0; font-size: 14px; }
 </style>
 </head>
 <body>
@@ -158,16 +165,22 @@ summary { cursor: pointer; color: #2563eb; font-weight: bold; }
       <div style="margin-top:20px; padding:15px; background:#fef3c7; border-radius:8px; border-left: 4px solid #f59e0b;">
         <strong>⭐ ¿Querés más clientes?</strong>
         <p style="margin: 5px 0; font-size: 14px;">Destacá tu perfil por Gs 5.000/mes</p>
-        <p style="margin: 5px 0; font-size: 12px; color: #64748b;">Escribí a WhatsApp: <a href="https://wa.me/5950981000000" style="color: #2563eb;">0981-000-000</a></p>
+        <p style="margin: 5px 0; font-size: 12px; color: #64748b;">Escribí a WhatsApp: <a href="https://wa.me/595976544936?text=Hola%20quiero%20destacar%20mi%20perfil" style="color: #2563eb;" target="_blank">+595976544936</a></p>
       </div>
     </div>
   </div>
 
   <!-- ADMIN -->
   <div id="pantalla-admin" class="hidden">
-    <h3>🔒 Panel Admin</h3>
-    <div style="background: #fee2e2; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 12px;">
-      <strong>PIN Admin: 1234</strong>
+    <div class="admin-header">
+      <h3>🔒 Panel Admin</h3>
+      <div class="admin-contact">
+        <div class="admin-contact-info">
+          <p><strong>PIN Admin:</strong> 1234</p>
+          <p><strong>Contacto:</strong> +595976544936</p>
+        </div>
+        <a href="https://wa.me/595976544936?text=Hola%20admin%20de%20ChambaPy" class="btn btn-whatsapp btn-small" target="_blank">💬 WhatsApp Admin</a>
+      </div>
     </div>
     <div id="lista-admin"></div>
   </div>

@@ -77,7 +77,7 @@ start index.html
    - Click en "💬 Contactar por WhatsApp"
    - Se abre WhatsApp con el trabajador
    - Dejar reseña después del trabajo
-
+y quejas si no se realiza bien el trabajo 
 ## 🔧 Tecnología
 
 - **Frontend:** HTML5 + CSS3 + JavaScript vanilla
@@ -93,12 +93,10 @@ La app tiene 3 pestañas principales:
 |---------|-------------|
 | 🔍 Buscar | Ver todos los trabajadores disponibles |
 | 👤 Perfil | Tu perfil y tus trabajos (requiere login) |
-| ⚙️ Admin | Panel de verificación (PIN: 1234) |
 
 ## 🔐 Seguridad
 
 - Cada trabajador usa PIN de 4 dígitos personal
-- Panel admin protegido con PIN (1234 para demo)
 - Los datos se guardan en LocalStorage (solo en el dispositivo)
 
 ## 💾 Datos

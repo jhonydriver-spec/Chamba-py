@@ -44,7 +44,7 @@ summary { cursor: pointer; color: #2563eb; }
     <div id="registro-form">
       <h3>Crear tu perfil gratis</h3>
       <input id="nombre" placeholder="Nombre completo">
-      <input id="telefono" placeholder="0981 123 456" type="tel">
+      <input id="telefono" placeholder="poner su número" type="tel">
       <select id="oficio">
         <option>Electricista</option><option>Plomero</option><option>Pintor</option><option>Albañil</option>
       </select>
@@ -73,7 +73,7 @@ summary { cursor: pointer; color: #2563eb; }
 <div id="admin" class="hidden"></div>
 
 <script>
-const CLAVE_ADMIN = "champa2026"; // CAMBIÁ ESTO
+const CLAVE_ADMIN = "RealMadrid2026"; // CAMBIÁ ESTO
 let trabajadores = JSON.parse(localStorage.getItem('champa_trabajadores')) || [];
 let usuarioActual = JSON.parse(localStorage.getItem('champa_usuario')) || null;
 
@@ -159,7 +159,7 @@ function renderizarMisTrabajos() {
     <div style="margin-top:20px; padding:15px; background:#fef3c7; border-radius:8px;">
       <strong>Créditos: ${usuarioActual.creditos || 0}</strong>
       <p>1 crédito = Gs 5.000 = 30 días destacado</p>
-      <p>Pagá por Tigo Money 0981-000-000 y enviá captura</p>
+      <p>Pagá por billetera personal 0976-544-936 y enviá captura</p>
       <button class="btn btn-destacado" onclick="usarCredito()">Activar 30 días</button>
     </div>
   `;
